@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HR Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="card">
+  <h2>HR Login</h2>
+
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+</div>
+
+<script>
+const API = "http://10.188.52.178:3000";
+
+function login(){
+fetch(API + '/login',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+username:document.getElementById("user").value,
+password:document.getElementById("pass").value
+})
+})
+.then(res=>res.json())
+.then(d=>{
+if(d.success){
+window.location="dashboard.html";
+}else{
+alert("Invalid login");
+}
+})
+.catch(()=>{
+alert("Server not reachable");
+});
+}
+</script>
+
+</body>
+</html>
+

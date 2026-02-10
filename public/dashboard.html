@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HR Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="logo">HR AI</div>
+</header>
+
+<div class="layout">
+
+  <nav id="sidebar">
+    <button onclick="employees()">Employee Details</button>
+    <button onclick="reports()">Employee Reports</button>
+    <button onclick="overall()">Overall View</button>
+  </nav>
+
+  <main>
+    <h1>Dashboard</h1>
+
+    <div id="employeeSection" class="card"></div>
+    <div id="reportSection" class="card" style="display:none"></div>
+    <div id="overallSection" class="card" style="display:none"></div>
+  </main>
+
+</div>
+
+<script>
+const API = "http://10.188.52.178:3000";
+
+function employees(){
+fetch(API + '/overview')
+.then(r=>r.json())
+.then(data=>{
+employeeSection.style.display="block";
+reportSection.style.display="none";
+overallSection.style.display="none";
+
+employeeSection.innerHTML =
+"<h3>Employees</h3>" +
+data.map(e =>
+`<button onclick="employeeCard(${e.empId})">${e.name}</button><br>`
+).join("");
+});
+}
+
+function employeeCard(empId){
+fetch(API + '/overview')
+.then(r=>r.json())
+.then(data=>{
+const emp = data.find(e=>e.empId===empId);
+
+employeeSection.innerHTML = `
+<div class="card">
+<h3>${emp.name}</h3>
+<p>Team Leader: ${emp.teamLeader}</p>
+<p>Attendance: ${emp.attendance}</p>
+<p>Late Count: ${emp.lateCount}</p>
+<p>Points: ${emp.points}</p>
+<p>AI Score: ${emp.aiScore}</p>
+<button onclick="employees()">Back</button>
+</div>`;
+});
+}
+
+function reports(){
+fetch(API + '/reports')
+.then(r=>r.json())
+.then(data=>{
+
+employeeSection.style.display="none";
+overallSection.style.display="none";
+reportSection.style.display="block";
+
+let html = "<h3>Team Leaders</h3>";
+
+for (let leader in data) {
+  html += `<button onclick="showTeam('${leader}')">${leader}</button><br>`;
+}
+
+reportSection.innerHTML = html;
+});
+}
+
+function showTeam(leader){
+fetch(API + '/reports')
+.then(r=>r.json())
+.then(data=>{
+
+let html = `<h3>${leader} Team</h3>`;
+
+data[leader].forEach(emp => {
+  html += `<button onclick="showEmployeeReport(${emp.empId})">${emp.name}</button><br>`;
+});
+
+reportSection.innerHTML = html;
+});
+}
+
+function showEmployeeReport(empId){
+fetch(API + '/reports')
+.then(r=>r.json())
+.then(data=>{
+
+for (let leader in data) {
+  const emp = data[leader].find(e => e.empId === empId);
+
+  if (emp) {
+    reportSection.innerHTML = `
+    <div class="card">
+      <h3>${emp.name}</h3>
+      <p>Attendance: ${emp.attendance}</p>
+      <p>Late Count: ${emp.lateCount}</p>
+      <h4>AI Suggestion: ${emp.suggestion}</h4>
+    </div>`;
+  }
+}
+});
+}
+
+function overall(){
+fetch(API + '/overview')
+.then(r=>r.json())
+.then(data=>{
+
+employeeSection.style.display="none";
+reportSection.style.display="none";
+overallSection.style.display="block";
+
+let html = "<h3>Employee Ranking</h3>";
+
+data.forEach((emp,index)=>{
+html += `
+<div class="card">
+<b>#${index+1} ${emp.name}</b><br>
+Points: ${emp.points}<br>
+AI Score: ${emp.aiScore}
+</div>`;
+});
+
+overallSection.innerHTML = html;
+});
+}
+</script>
+
+</body>
+</html>

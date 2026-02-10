@@ -1,0 +1,157 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+}
+
+/* Login Card */
+.card {
+  width: 95%;
+  max-width: 360px;
+  background: rgba(255,255,255,0.95);
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2a5298;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 12px;
+  background: #2a5298;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #1e3c72;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile optimization */
+@media (max-width: 480px) {
+  .card {
+    padding: 20px;
+  }
+}
+.topbar {
+  height: 60px;
+  background: #2a5298;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.layout {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+
+nav {
+  width: 220px;
+  background: #f4f6f9;
+  padding: 20px;
+  transition: 0.3s;
+}
+
+nav button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+.menuBtn {
+  display: none;
+}
+
+/* Cards */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Dark Theme */
+body.dark {
+  background: #121212;
+  color: white;
+}
+
+body.dark nav {
+  background: #1e1e1e;
+}
+
+body.dark .card {
+  background: #2a2a2a;
+}
+
+/* Mobile Layout */
+@media (max-width: 768px) {
+
+  nav {
+    position: absolute;
+    left: -220px;
+    top: 60px;
+    height: 100%;
+  }
+
+  nav.show {
+    left: 0;
+  }
+
+  .menuBtn {
+    display: block;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+}
+
